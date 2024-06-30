@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
-//test
+import baseEnvUrl from './utils/environmentBaseUrl';
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -46,6 +47,44 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+    },
+
+    {
+      name: 'all-browsers-and-tests',
+      use: { 
+        baseURL: 'https://playwright.dev/',
+         ...devices['Desktop Chrome']
+      },
+    },
+
+    {
+      name: 'all-browsers-and-tests',
+      use: { 
+        baseURL: 'https://playwright.dev/',
+         ...devices['Desktop Safari']
+      },
+    },
+
+    // Example only
+    {
+      name: 'local',
+      use: { 
+        baseURL: baseEnvUrl.local.home,
+      },
+    },
+
+    // Example only
+    {
+      name: 'ci',
+      use: { 
+         baseURL: process.env.CI
+          ? baseEnvUrl.ci.prefix + process.env.GITHUB_REF_NAME + baseEnvUrl.ci.suffix //https://dev-myapp-chapter-2.mydomain.com
+          : baseEnvUrl.staging.home,
+      },
+      /**
+       * GitHub variables: https://docs.github.com/en/actions/learn-github-actions/variables
+       * GitLab variables: https://docs.gitlab.com/ee/ci/variables/predefined_variables.html#predefined-variables-reference
+       */
     },
 
     /* Test against mobile viewports. */
